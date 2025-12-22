@@ -215,7 +215,7 @@ def to_float_safe(s: pd.Series) -> pd.Series:
         errors="coerce"
     ).fillna(0.0)
 
-@st.cache_data(show_spinner=False)
+
 def load_data():
     # --- Load ME2N (base) ---
     me2n = pd.read_csv(ME2N_PATH, dtype=str, encoding="utf-8-sig")
