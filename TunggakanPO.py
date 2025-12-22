@@ -161,6 +161,25 @@ DIMPTJ_PATH = os.path.join(SCRIPT_DIR, "DimPTJ.csv")
 # HELPERS
 # =========================
 
+from datetime import datetime
+
+def get_last_updated_date(file_paths: list[str]) -> str:
+    from datetime import datetime
+
+    latest_ts = 0
+    for p in file_paths:
+        if os.path.exists(p):
+            ts = os.path.getmtime(p)
+            if ts > latest_ts:
+                latest_ts = ts
+
+    if latest_ts == 0:
+        return "N/A"
+
+    dt = datetime.fromtimestamp(latest_ts)
+    return dt.strftime("%d/%m/%Y")   # ✅ DATE ONLY
+
+
 def format_short(num):
     try:
         num = float(num)
@@ -268,7 +287,7 @@ st.title("Laporan Tunggakan Pesanan Tempatan")
 LOGO_PATH = os.path.join(SCRIPT_DIR, "cidb_logo.png")
 
 st.sidebar.image(LOGO_PATH, width=140)
-
+st.sidebar.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
 
 missing_files = [p for p in [ME2N_PATH, ME2K_PATH, MANUAL_PATH, DIMPTJ_PATH] if not os.path.exists(p)]
@@ -277,6 +296,10 @@ if missing_files:
     for p in missing_files:
         st.write("-", p)
     st.stop()
+
+last_updated = get_last_updated_date([ME2N_PATH, ME2K_PATH, MANUAL_PATH, DIMPTJ_PATH])
+
+
 
 df = load_data()
 
@@ -324,6 +347,33 @@ vendor_choice = st.sidebar.selectbox("Vendor", ["All"] + vendor_list, index=0)
 if vendor_choice != "All":
     f = f[f[VENDOR_COL].astype(str) == vendor_choice]
 
+# =========================
+# LAST UPDATED (UNDER SLICER)
+# =========================
+last_updated = get_last_updated_date([ME2N_PATH, ME2K_PATH, MANUAL_PATH, DIMPTJ_PATH])
+
+st.sidebar.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+st.sidebar.markdown(
+    f"""
+    <div style="
+        font-size: 12px;
+        color: rgba(255,255,255,0.85);
+        font-weight: 600;
+    ">
+        Tarikh kemaskini data :
+    </div>
+    <div style="
+        font-size: 13px;
+        color: #FFFFFF;
+        font-weight: 800;
+        letter-spacing: 0.3px;
+    ">
+        {last_updated}
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 
 # =========================
