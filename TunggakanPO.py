@@ -286,8 +286,14 @@ st.title("Laporan Tunggakan Pesanan Tempatan")
 
 LOGO_PATH = os.path.join(SCRIPT_DIR, "cidb_logo.png")
 
-st.sidebar.image(LOGO_PATH, width=140)
-st.sidebar.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+if os.path.exists(LOGO_PATH):
+    try:
+        st.sidebar.image(LOGO_PATH, width=140)
+    except Exception as e:
+        st.sidebar.warning(f"Logo load failed: {e}")
+else:
+    st.sidebar.warning(f"Logo not found: {LOGO_PATH}")
+
 
 
 missing_files = [p for p in [ME2N_PATH, ME2K_PATH, MANUAL_PATH, DIMPTJ_PATH] if not os.path.exists(p)]
