@@ -284,15 +284,7 @@ def load_data():
 # =========================
 st.title("Laporan Tunggakan Pesanan Tempatan")
 
-LOGO_PATH = os.path.join(SCRIPT_DIR, "cidb_logo.png")
 
-if os.path.exists(LOGO_PATH):
-    try:
-        st.sidebar.image(LOGO_PATH, width=140)
-    except Exception as e:
-        st.sidebar.warning(f"Logo load failed: {e}")
-else:
-    st.sidebar.warning(f"Logo not found: {LOGO_PATH}")
 
 
 
