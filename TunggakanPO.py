@@ -284,9 +284,9 @@ def load_data():
 # =========================
 st.title("Laporan Tunggakan Pesanan Tempatan")
 
-LOGO_PATH = r"C:\Users\nabil\OneDrive\My Document\Aset dan tuntutan\2025\Report tunggakan PO\cidb_logo.png"
+LOGO_PATH = os.path.join(SCRIPT_DIR, "cidb_logo.png")
 
-st.sidebar.image(LOGO_PATH, use_container_width=True)
+st.sidebar.image(LOGO_PATH, width=140)
 st.sidebar.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
 
